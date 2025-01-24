@@ -203,6 +203,19 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- Jump to last position
+-- Taken from: https://www.reddit.com/r/neovim/comments/tqeh9m/comment/i2hbc4p/
+local group = vim.api.nvim_create_augroup('jump_last_position', { clear = true })
+vim.api.nvim_create_autocmd('BufReadPost', {
+  callback = function()
+    local row, col = unpack(vim.api.nvim_buf_get_mark(0, '"'))
+    if { row, col } ~= { 0, 0 } then
+      vim.api.nvim_win_set_cursor(0, { row, 0 })
+    end
+  end,
+  group = group,
+})
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
