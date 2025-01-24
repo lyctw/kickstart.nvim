@@ -465,6 +465,12 @@ require('lazy').setup({
     },
   },
 
+  -- RISC-V Assembly
+  {
+    'henry-hsieh/riscv-asm-vim',
+    ft = { 'riscv_asm' },
+  },
+
   -- LSP Plugins
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
