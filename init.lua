@@ -490,6 +490,14 @@ require('lazy').setup({
     },
   },
 
+  -- Code Completion
+  -- Run: :CocInstall coc-clangd
+  --      :CocEnable
+  {
+    'neoclide/coc.nvim',
+    branch = 'release',
+  },
+
   -- RISC-V Assembly
   {
     'henry-hsieh/riscv-asm-vim',
