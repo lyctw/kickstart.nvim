@@ -328,6 +328,7 @@ require('lazy').setup({
 
       -- Document existing key chains
       spec = {
+        { '<leader>a', group = '[A]gentic', mode = { 'n', 'v' } },
         { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
         { '<leader>d', group = '[D]ocument' },
         { '<leader>r', group = '[R]ename' },
@@ -474,6 +475,59 @@ require('lazy').setup({
       -- See also `vertical_bar_cursor_insert_mode` and `distance_stop_animating_vertical_bar`.
       smear_insert_mode = true,
     },
+  },
+
+  -- Agentic Chat Interface (using Augment's Auggie ACP provider)
+  {
+    'carlos-algms/agentic.nvim',
+    dependencies = {
+      { 'hakonharnes/img-clip.nvim', opts = {} },
+    },
+    opts = {
+      -- Set Auggie as the provider (use the built-in auggie-acp provider)
+      provider = 'auggie-acp',
+      -- Optional: configure window layout
+      windows = {
+        position = 'right', -- "right", "left", or "bottom"
+        width = '40%',      -- Sidebar width (position = "right" or "left")
+        height = '30%',     -- Panel height (position = "bottom")
+      },
+      -- Optional: configure keymaps
+      keymaps = {
+        widget = {
+          close = 'q',
+          change_mode = {
+            {
+              '<S-Tab>',
+              mode = { 'i', 'n', 'v' },
+            },
+          },
+          switch_provider = '<localLeader>s',
+          switch_model = '<localLeader>m',
+        },
+        prompt = {
+          submit = {
+            '<CR>',
+            {
+              '<C-s>',
+              mode = { 'n', 'v', 'i' },
+            },
+          },
+        },
+      },
+    },
+    config = function(_, opts)
+      require('agentic').setup(opts)
+
+      -- Add keymaps for Agentic commands
+      vim.keymap.set('n', '<leader>aa', '<cmd>lua require("agentic").toggle()<cr>', { desc = '[A]gentic Toggle' })
+      vim.keymap.set('n', '<leader>an', '<cmd>lua require("agentic").new_session()<cr>', { desc = '[A]gentic [N]ew Session' })
+      vim.keymap.set('n', '<leader>ar', '<cmd>lua require("agentic").restore_session()<cr>', { desc = '[A]gentic [R]estore Session' })
+      vim.keymap.set('n', '<leader>as', '<cmd>lua require("agentic").add_selection()<cr>', { desc = '[A]gentic Add [S]election' })
+      vim.keymap.set('v', '<leader>as', '<cmd>lua require("agentic").add_selection()<cr>', { desc = '[A]gentic Add [S]election' })
+      vim.keymap.set('n', '<leader>af', '<cmd>lua require("agentic").add_file()<cr>', { desc = '[A]gentic Add [F]ile' })
+      vim.keymap.set('n', '<leader>ad', '<cmd>lua require("agentic").add_buffer_diagnostics()<cr>', { desc = '[A]gentic Add [D]iagnostics' })
+    end,
   },
 
   -- Cscope
